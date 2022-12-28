@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="/index.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+		integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>OpenCamera</title>
+</head>
+
+<body>
+	<header class="header">
+		<div class="logo">
+			<i class="fa-solid fa-cloud"></i>
+			<h2>INTERFACE <span>CALL VIDEO</span></h2>
+		</div>
+		<nav class="list">
+			<ul>
+				<li><a href="">Home</a></li>
+				<li><a href="">About</a></li>
+				<li><a href="">FAQs</a></li>
+			</ul>
+		</nav>
+	</header>
+	<div class="content">
+		<div class="container">
+			<div class="video-screen">
+				<!-- <video style="display: none;" id="video-input" class="videostream" autoplay=""></video> -->
+				<img  id="video-output" class="videostream" style="width: 100%; height: 100%;"></img>
+			</div>
+			<div class="button">
+				<button class="capture-button">Open<i class="fa-solid fa-video"></i></button>
+				<button class="stop-button">Stop<i class="fa-solid fa-stop"></i></button>
+			</div>
+		</div>
+		<div class="main">
+			<div class="main-img">
+				<i class="fa-solid fa-angle-left"></i>
+				<img src="https://www.gstatic.com/meet/meet_google_one_carousel_promo_icon_0f14bf8fc61484b019827c071ed8111d.svg"
+					alt="">
+				<i class="fa-solid fa-angle-right"></i>
+			</div>
+			<p>
+				Explore the premium features of the app
+			</p>
+			<small style="text-align: center;">Internet's icon library and toolkit</small>
+			<div class="dot">
+				<i class="fa-solid fa-circle-dot"></i>
+				<i class="fa-solid fa-circle-dot"></i>
+				<i class="fa-solid fa-circle-dot"></i>
+			</div>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="ft-search">
+			<p>Subcribe to our news</p>
+			<div>
+				<input type="text" placeholder="Enter your email">
+				<button>Subcribe</button>
+			</div>
+		</div>
+		<div class="ft-content">
+			<div class="ft-top">
+				<h2 class="ft-logo">FOOTER</h2>
+				<div class="ft-icon">
+					<i class="fa-brands fa-facebook"></i>
+					<i class="fa-brands fa-twitter"></i>
+					<i class="fa-brands fa-instagram"></i>
+				</div>
+			</div>
+
+			<div class="ft-bottom">
+				<ul>
+					<li>RESOURCES</li>
+					<li>Aplication</li>
+					<li>Documentation</li>
+					<li>FAQs</li>
+				</ul>
+				<ul>
+					<li>RESOURCES</li>
+					<li>Aplication</li>
+					<li>Documentation</li>
+					<li>FAQs</li>
+				</ul>
+				<ul>
+					<li>RESOURCES</li>
+					<li>Aplication</li>
+					<li>Documentation</li>
+					<li>FAQs</li>
+				</ul>
+			</div>
+		</div>
+	</footer>
+	<!-- <script src="https://cdn.socket.io/4.5.3/socket.io.min.js" integrity="sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi" crossorigin="anonymous"></script> -->
+	<script src="/index.js"></script>
+
+</html>
