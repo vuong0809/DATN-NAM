@@ -137,14 +137,34 @@ def save_dataset(frame, faces, name):
 def draw_box(frame, faces):
     for (x, y, g, h) in faces:
         cv2.rectangle(frame, (x, y), (x+g, y+h), (0, 225, 0), 2)
-
-    # cv2.imshow('frame', frame)
-    # cv2.waitKey(1)
     return frame
 
 
-def face_detect(frame):
+def get_xyxy(faces):
+    for (x, y, g, h) in faces:
+        l = 127 - (int(x) + (int(g)/2))
+        r = 0
+        return [l, r]
+    return []
 
+
+def face_detect(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     return faces
+
+
+def distance_finder(faces):
+    face_width_in_frame = 0
+    er = -1
+    for (x, y, h, w) in faces:
+        face_width_in_frame = int(w)
+        er = (x + h/2)-300
+        # print(er)
+
+    Focal_Length = 1000
+    real_face_width = 14.3
+    distance = 0
+    if face_width_in_frame != 0:
+        distance = (real_face_width * Focal_Length)/face_width_in_frame
+    return [distance, er]

@@ -67,49 +67,42 @@ def face_data(image):
 
 
 # reading reference_image from directory
-ref_image = cv2.imread("Ref_image.png")
+# ref_image = cv2.imread("Ref_image.png")
 
 # find the face width(pixels) in the reference_image
-ref_image_face_width = face_data(ref_image)
+# ref_image_face_width = face_data(ref_image)
 
 # get the focal by calling "Focal_Length_Finder"
 # face width in reference(pixels),
 # Known_distance(centimeters),
 # known_width(centimeters)
-Focal_length_found = Focal_Length_Finder(
-    Known_distance, Known_width, ref_image_face_width)
+# Focal_length_found = Focal_Length_Finder(
+#     Known_distance, Known_width, ref_image_face_width)
 
-print(Focal_length_found)
+
+# Focal_length_found = 1000
+# print(Focal_length_found)
 
 # show the reference image
 # cv2.imshow("ref_image", ref_image)
 
 # initialize the camera object so that we
 # can get frame from it
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # looping through frame, incoming from
 # camera/video
 while True:
 
-    # reading the frame from camera
     _, frame = cap.read()
 
-    # calling face_data function to find
-    # the width of face(pixels) in the frame
+
     face_width_in_frame = face_data(frame)
 
-    # check if the face is zero then not
-    # find the distance
     if face_width_in_frame != 0:
 
-        # finding the distance by calling function
-        # Distance finder function need
-        # these arguments the Focal_Length,
-        # Known_width(centimeters),
-        # and Known_distance(centimeters)
-        Distance = Distance_finder(
-            Focal_length_found, Known_width, face_width_in_frame)
+
+        Distance = Distance_finder(1000, Known_width, face_width_in_frame)
 
         # draw line as background of text
         cv2.line(frame, (30, 30), (230, 30), RED, 32)
