@@ -9,7 +9,8 @@ from pydantic import BaseModel
 import time
 
 import utils
-from fastapi_socketio import SocketManager
+
+from routes import router
 
 
 class CreateUser(BaseModel):
@@ -31,8 +32,6 @@ app.add_middleware(CORSMiddleware,
                    allow_headers=["*"],
                    )
 
-socket_manager = SocketManager(app=app)
-
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -42,55 +41,53 @@ async def add_process_time_header(request: Request, call_next):
     response.headers["X-Process-Time"] = str(process_time)
     return response
 
+# @app.post('/api/face-id')
+# def get_id(form_data: GetFaceId):
+#     img_b64 = form_data.image_base64.split(',')[1]
+#     frame = utils.base64_to_frame(img_b64)
+#     faces = utils.face_detect(frame)
+#     frame = utils.face_predict(frame, faces)
+#     ids = utils.get_face_ids(frame, faces)
 
-@app.post('/api/face-id')
-def get_id(form_data: GetFaceId):
-    img_b64 = form_data.image_base64.split(',')[1]
-    frame = utils.base64_to_frame(img_b64)
-    faces = utils.face_detect(frame)
-    frame = utils.face_predict(frame, faces)
-    ids = utils.get_face_ids(frame, faces)
-
-    frame = utils.draw_box(frame, faces)
-    return {
-        "id": ids[0]if len(ids) > 0 else 0,
-        "img": utils.frame_to_base64(frame)
-    }
-
-
-@app.post('/api/dataset')
-def post_data_set(form_data: CreateUser):
-    if form_data.id == 0:
-        form_data.id = utils.get_count_user()+1
-
-    count = utils.get_count_img(form_data.id)
-    img_b64 = form_data.image_base64.split(',')[1]
-    id = 0
-    frame = utils.base64_to_frame(img_b64)
-    faces = utils.face_detect(frame)
-    if count < 200:
-        count = utils.save_dataset(frame, faces, form_data.id)
-    else:
-        utils.traing()
-        ids = utils.get_face_ids(frame, faces)
-        id = ids[0]if len(ids) > 0 else 0
-        frame = utils.face_predict(frame, faces)
-
-    frame = utils.draw_box(frame, faces)
-    img_b64 = utils.frame_to_base64(frame)
-
-    return {
-        "user_id": form_data.id,
-        "id": id,
-        "img": img_b64
-    }
+#     frame = utils.draw_box(frame, faces)
+#     return {
+#         "id": ids[0]if len(ids) > 0 else 0,
+#         "img": utils.frame_to_base64(frame)
+#     }
 
 
-# app.mount("/public", StaticFiles(directory="public", html=True), name="public")
-app.mount("/", StaticFiles(directory="html", html=True), name="view")
+# @app.post('/api/dataset')
+# def post_data_set(form_data: CreateUser):
+#     if form_data.id == 0:
+#         form_data.id = utils.get_count_user()+1
+
+#     count = utils.get_count_img(form_data.id)
+#     img_b64 = form_data.image_base64.split(',')[1]
+#     id = 0
+#     frame = utils.base64_to_frame(img_b64)
+#     faces = utils.face_detect(frame)
+#     if count < 200:
+#         count = utils.save_dataset(frame, faces, form_data.id)
+#     else:
+#         utils.traing()
+#         ids = utils.get_face_ids(frame, faces)
+#         id = ids[0]if len(ids) > 0 else 0
+#         frame = utils.face_predict(frame, faces)
+
+#     frame = utils.draw_box(frame, faces)
+#     img_b64 = utils.frame_to_base64(frame)
+
+#     return {
+#         "user_id": form_data.id,
+#         "id": id,
+#         "img": img_b64
+#     }
 
 
-@socket_manager.on('stream_img')
-async def handle_leave(sid, *args, **kwargs):
-    # await socket_manager.emit('lobby', 'User left')
-    print(args)
+# @app.post('/api/car')
+# def car(form_data: GetFaceId):
+#     print(form_data)
+#     return
+
+
+# app.mount("/", StaticFiles(directory="html", html=True), name="view")
