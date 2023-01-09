@@ -2,7 +2,13 @@
 const video = document.createElement("video")
 const captureVideoButton = document.querySelector(".capture-button")
 const stopVideoButton = document.querySelector(".stop-button")
+const socket = io('http://103.161.112.166:9980');
 
+
+
+socket.on("connect", () => {
+	console.log("connect: ")
+});
 
 var stream_status = false
 captureVideoButton.onclick = function () {
@@ -39,14 +45,6 @@ function StopVideo() {
 }
 
 stopVideoButton.onclick = StopVideo
-
-
-
-
-
-
-
-
 
 
 async function GetFaceId(body) {
@@ -124,6 +122,32 @@ function SendDataSet() {
 	} else {
 		if (step == 2) {
 			console.log("Step 2")
+			socket.emit("hoangxuannam/car_control", true)
+			processVideo('')
 		}
 	}
+}
+
+
+function processVideo(src) {
+	const video_output = document.getElementById('video-output')
+	const fetchOptions = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"
+		}
+	};
+	fetch('/api/car', fetchOptions)
+		.then((response) => response.json())
+		.then((data) => {
+			// console.log(data)
+			// ShowTelemetry(data.telemetry)
+			processVideo(data)
+			// return data;
+		});
+	if (src != null) {
+		video_output.src = src
+	}
+
 }

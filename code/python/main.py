@@ -10,7 +10,6 @@ import time
 
 import utils
 import cv2
-from routes import router
 
 
 class CreateUser(BaseModel):
@@ -31,6 +30,9 @@ app.add_middleware(CORSMiddleware,
                    allow_methods=["*"],
                    allow_headers=["*"],
                    )
+
+
+car_img = ''
 
 
 @app.middleware("http")
@@ -87,16 +89,23 @@ def post_data_set(form_data: CreateUser):
 
 @app.post('/api/car')
 def car(form_data: GetFaceId):
+    global car_img
     img_b64 = form_data.image_base64.split(',')[1]
     frame = utils.base64_to_frame(img_b64)
     faces = utils.face_detect(frame)
 
     frame = utils.face_predict(frame, faces)
     frame = utils.draw_box(frame, faces)
-    cv2.imshow('frame', frame)
-    cv2.waitKey(1)
+    # cv2.imshow('frame', frame)
+    # cv2.waitKey(1)
 
+    car_img = utils.frame_to_base64(frame)
     return utils.distance_finder(faces)
+
+
+@app.get('/api/car')
+def get():
+    return car_img
 
 
 app.mount("/", StaticFiles(directory="html", html=True), name="view")
